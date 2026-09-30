@@ -518,7 +518,7 @@ CurrentBlobs current_blobs(const LoadedMod& mod, bool create) {
     return {&store, &mods[mod.metadata.id]};
 }
 
-ModResult save_set_blob(ModContext* context, const char* name, const void* data, size_t size) {
+DUSK_NOINLINE ModResult save_set_blob(ModContext* context, const char* name, const void* data, size_t size) {
     auto* mod = mod_from_context(context);
     if (mod == nullptr || !utils::is_valid_name(name, kMaxBlobNameLength) ||
         (data == nullptr && size != 0) || size > SAVE_BLOB_BUDGET_BYTES)
@@ -550,7 +550,7 @@ ModResult save_set_blob(ModContext* context, const char* name, const void* data,
     return MOD_OK;
 }
 
-ModResult save_get_blob(ModContext* context, const char* name, void* buf, size_t* inoutSize) {
+DUSK_NOINLINE ModResult save_get_blob(ModContext* context, const char* name, void* buf, size_t* inoutSize) {
     auto* mod = mod_from_context(context);
     if (mod == nullptr || !utils::is_valid_name(name, kMaxBlobNameLength) || inoutSize == nullptr) {
         return MOD_INVALID_ARGUMENT;
